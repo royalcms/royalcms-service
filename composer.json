@@ -31,7 +31,8 @@
                 "Royalcms\\Component\\Service\\ServiceServiceProvider"
             ],
             "aliases": {
-                "RC_Service": "Royalcms\\Component\\Service\\Facades\\Service"
+                "RC_Service": "Royalcms\\Component\\Service\\Facades\\Service",
+                "RC_Api": "Royalcms\\Component\\Service\\ApiCall"
             }
         }
     },
