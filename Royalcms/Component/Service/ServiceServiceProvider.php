@@ -26,7 +26,7 @@ class ServiceServiceProvider extends ServiceProvider
     protected function registerServiceService()
     {
         $this->royalcms->singleton('service', function($royalcms) {
-            return new ServiceManager();
+            return new ServiceManager($royalcms);
         });
     }
 
