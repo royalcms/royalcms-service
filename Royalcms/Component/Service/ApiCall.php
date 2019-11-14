@@ -62,7 +62,7 @@ class ApiCall
         if (is_array($apps)) {
             return collect($apps)->mapWithKeys(function ($app) use ($name, $param) {
                 return [$app => self::api($app, $name, $param)];
-            })->filter();
+            })->filter()->all();
         }
 
         return null;
