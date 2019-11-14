@@ -129,6 +129,11 @@ class ServiceManager
      */
     public function handle($handle, $params = array())
     {
+        $listener = $this->makeListener($handle);
+        if (is_null($listener)) {
+            return null;
+        }
+
         return call_user_func($this->makeListener($handle), $params);
     }
 
@@ -164,6 +169,11 @@ class ServiceManager
     protected function createClassCallable($listener, $container)
     {
         list($class, $method) = $this->parseClassCallable($listener);
+
+        if (! class_exists($class)) {
+            \RC_Log::info(sprintf("Class %s not extsis.", $class));
+            return null;
+        }
 
         if (! $container->isShared($class)) {
             $container->singleton($class);
