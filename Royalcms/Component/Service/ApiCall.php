@@ -3,10 +3,9 @@
 
 namespace Royalcms\Component\Service;
 
-
-use Royalcms\Component\Foundation\Loader;
 use Royalcms\Component\Service\Facades\Service;
 use RC_Hook;
+use RC_Package;
 
 class ApiCall
 {
@@ -75,7 +74,24 @@ class ApiCall
      */
     private static function apiHandle($api, $params)
     {
-        return Loader::load_api($api_name, $params);
+        $keys = explode('.', $api);
+        $app = $keys[0];
+        $class = $app . '_' . $keys[1] . '_api';
+        $key = $keys[1];
+
+        if ($app == 'system' || $app == config('system.admin_entrance')) {
+            $system_api = RC_Package::package('system')->loadApi($key);
+            if ($system_api) {
+                return $system_api->call($parms);
+            }
+        } else {
+            $app_api = RC_Package::package('app::'.$app)->loadApi($key);
+            if ($app_api) {
+                return $app_api->call($parms);
+            }
+        }
+
+        return null;
     }
 
     /**
