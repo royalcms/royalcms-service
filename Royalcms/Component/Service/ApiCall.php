@@ -6,6 +6,7 @@ namespace Royalcms\Component\Service;
 
 use Royalcms\Component\Foundation\Loader;
 use Royalcms\Component\Service\Facades\Service;
+use RC_Hook;
 
 class ApiCall
 {
