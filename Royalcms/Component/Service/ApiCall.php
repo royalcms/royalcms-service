@@ -18,7 +18,7 @@ class ApiCall
      * @param array $params API参数
      * @return array
      */
-    public static function api($app, $name, $params = array())
+    public static function api($app, $name, $params = [])
     {
         $api_name = $app . '.' . $name;
 
@@ -56,7 +56,7 @@ class ApiCall
      * @param array $param API参数
      * @return array
      */
-    public static function apis($apps, $name, $param = array())
+    public static function apis($apps, $name, $param = [])
     {
         if (is_array($apps)) {
             return collect($apps)->mapWithKeys(function ($app) use ($name, $param) {
@@ -72,7 +72,7 @@ class ApiCall
      * @param $params
      * @return bool
      */
-    private static function apiHandle($api, $params)
+    private static function apiHandle($api, $params = [])
     {
         $keys = explode('.', $api);
         $app = $keys[0];
@@ -82,12 +82,12 @@ class ApiCall
         if ($app == 'system' || $app == config('system.admin_entrance')) {
             $system_api = RC_Package::package('system')->loadApi($key);
             if ($system_api) {
-                return $system_api->call($parms);
+                return $system_api->call($params);
             }
         } else {
             $app_api = RC_Package::package('app::'.$app)->loadApi($key);
             if ($app_api) {
-                return $app_api->call($parms);
+                return $app_api->call($params);
             }
         }
 
@@ -99,7 +99,7 @@ class ApiCall
      * @param $app
      * @param $params
      */
-    private static function serviceHandle($name, $app, $params)
+    private static function serviceHandle($name, $app, $params = [])
     {
         return Service::fire($name, $app, $params);
     }
@@ -109,7 +109,7 @@ class ApiCall
      * @param $app
      * @return mixed
      */
-    private static function hasServiceHandle($name, $app)
+    private static function hasServiceHandle($name, $app = null)
     {
         return Service::hasHandleWithTag($name, $app);
     }
