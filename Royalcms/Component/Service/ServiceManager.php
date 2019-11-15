@@ -53,7 +53,7 @@ class ServiceManager
      */
     public function getHandleWithTag($tag)
     {
-        if (isset($this->handles[$tag])) {
+        if ($this->hasHandleWithTag($tag)) {
             return $this->handles[$tag];
         }
 
@@ -67,7 +67,7 @@ class ServiceManager
      */
     public function getHandleWithTagApp($tag, $app)
     {
-        if (isset($this->handles[$tag][$app])) {
+        if ($this->hasHandleWithTag($tag, $app)) {
             return $this->handles[$tag][$app];
         }
 
@@ -82,17 +82,11 @@ class ServiceManager
     public function hasHandleWithTag($tag, $app = null)
     {
         if (is_null($app)) {
-            if (isset($this->handles[$tag][$app])) {
-                return true;
-            }
+            return array_has($this->handles, $tag);
         }
         else {
-            if (isset($this->handles[$tag])) {
-                return true;
-            }
+            return array_has($this->handles, $tag.'.'.$app);
         }
-
-        return false;
     }
 
     /**
